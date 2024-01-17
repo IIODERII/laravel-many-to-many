@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCategoryRequest extends FormRequest
+class UpdateTechnologyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', Rule::unique('categories')->ignore($this->category)],
+            'name' => ['required', Rule::unique('technologies', 'name')->ignore($this->technology)],
         ];
     }
     public function messages()
@@ -32,4 +32,5 @@ class UpdateCategoryRequest extends FormRequest
             'name.required' => 'The name field is required.',
         ];
     }
+
 }

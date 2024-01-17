@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <section class="container">
-        <a href="{{ route('admin.categories.index') }}" class="btn btn-dark my-3"><i class="fa-solid fa-left-long"></i></a>
-        <h1>{{ $category->name }}</h1>
+        <a href="{{ route('admin.technologies.index') }}" class="btn btn-dark my-3"><i class="fa-solid fa-left-long"></i></a>
+        <h1>{{ $technology->name }}</h1>
 
-        @if ($category->project)
-            <h3>Lista dei progetti in questa categoria</h3>
+        @if ($technology->project)
+            <h3>Lista dei progetti che utilizzano questa tecnologia</h3>
 
 
             <table class="table table-dark table-striped table-hover my-5">
@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($category->projects as $key => $project)
+                    @foreach ($technology->projects as $key => $project)
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $project->title }}</td>
@@ -41,7 +41,7 @@
                 </tbody>
             </table>
         @else
-            <h3>Non ci sono progetti in questa categoria</h3>
+            <h3>Non ci sono progetti che utilizzano questa tecnologia</h3>
         @endif
     </section>
     @include('partials.modal_delete')
