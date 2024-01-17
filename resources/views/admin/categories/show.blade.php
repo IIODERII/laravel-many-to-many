@@ -4,7 +4,7 @@
         <a href="{{ route('admin.categories.index') }}" class="btn btn-dark my-3"><i class="fa-solid fa-left-long"></i></a>
         <h1>{{ $category->name }}</h1>
 
-        @if ($category->project)
+        @if (count($category->projects) > 0)
             <h3>Lista dei progetti in questa categoria</h3>
 
 

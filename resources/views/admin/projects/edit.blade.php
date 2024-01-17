@@ -31,6 +31,25 @@
             @error('description')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+            <div class="form-group container-fluid my-4">
+                <h4>Seleziona le tecnologie utilizzate</h4>
+                <div class="row g-3">
+                    @foreach ($technologies as $key => $technology)
+                        <div class="form-chech-input col-2">
+                            <input id="technology{{ $key }}" type="checkbox" name="technologies[]"
+                                value="{{ $technology->id }}"
+                                {{ $project->technologies->contains($technology->id) ? 'checked' : '' }}>
+                            <label class="form-chech-label" for="technology{{ $key }}">
+                                <i style="cursor: pointer" class="fs-1 ms-2 fa-brands fa-{{ $technology->name }}"></i>
+
+                            </label>
+                        </div>
+                    @endforeach
+                    @error('technologies')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
             <div class="my-3" style="width: 600px;">
                 <img class="w-100" id="uploadPreview" src="{{ asset('storage/' . $project->image) }}" alt="Placeholder">
             </div>
@@ -46,13 +65,7 @@
             @error('url')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-            <label for="tecnologies">Tecnologie utilizzate (scrivere con uno spazio tra una e l'altra, es.
-                htmll css JavaScript)</label>
-            <input value="{{ old('tecnologies', $project->tecnologies) }}" type="text" id="tecnologies"
-                name="tecnologies" class="form-control @error('description') is-invalid @enderror">
-            @error('tecnologies')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+
             <button type="submit" class="btn btn-primary mt-3">Save</button>
             <input type="reset" class="btn btn-warning mt-3">
         </form>

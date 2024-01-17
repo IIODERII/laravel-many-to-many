@@ -4,7 +4,7 @@
         <a href="{{ route('admin.technologies.index') }}" class="btn btn-dark my-3"><i class="fa-solid fa-left-long"></i></a>
         <h1>{{ $technology->name }}</h1>
 
-        @if ($technology->project)
+        @if ($technology->projects->count() > 0)
             <h3>Lista dei progetti che utilizzano questa tecnologia</h3>
 
 

@@ -1,7 +1,3 @@
-<?php
-$technologies = explode(' ', $project->tecnologies);
-?>
-
 @extends('layouts.app')
 @section('content')
     <section class="container">
@@ -28,16 +24,26 @@ $technologies = explode(' ', $project->tecnologies);
                 <a class="btn btn-primary" href="{{ $project->url }}" style="max-width: 200px">Scopri questo
                     progetto su GitHub</a>
                 <h3 class="mt-4">Tecnologie utilizzate:</h3>
-                <ul>
-                    @foreach ($technologies as $technology)
-                        <li>{{ $technology }}</li>
-                    @endforeach
-                </ul>
+                <div class="container-fluid">
+                    <ul class="list-unstyled row g-3">
+                        @if (count($project->technologies) > 0)
+                            @foreach ($project->technologies as $technology)
+                                <li class="col-3"><a class="text-white"
+                                        href="{{ route('admin.technologies.show', $technology->slug) }}"><i
+                                            class="fa-brands fs-1 fa-{{ $technology->name }}"></i></a>
+                                </li>
+                            @endforeach
+                        @else
+                            <li>Nessuna</li>
+                        @endif
+                    </ul>
+                </div>
                 <div>
                     <h4>Tipo di progetto:</h4>
                     <p>
                         @if ($project->category)
-                            {{ $project->category->name }}
+                            <a class="text-white"
+                                href="{{ route('admin.categories.show', $project->category->slug) }}">{{ $project->category->name }}</a>
                         @else
                             Nessuna
                         @endif
@@ -45,6 +51,7 @@ $technologies = explode(' ', $project->tecnologies);
                 </div>
             </div>
             <div class="col-9">
+
                 <p>{{ $project->description }}</p>
 
 
