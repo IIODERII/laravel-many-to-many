@@ -19,7 +19,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $currentUserId = Auth::id();
+        if ($currentUserId === 1) {
+            $projects = Project::paginate(3);
+        } else {
+            $projects = Project::where('user_id', $currentUserId)->get();
+        }
+
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -63,7 +69,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        $currentUserId = Auth::id();
+        if ($currentUserId === 1 || $project->user_id === $currentUserId) {
+            return view('admin.projects.show', compact('project'));
+        }
+        abort(403);
     }
 
     /**
@@ -71,9 +81,14 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $categories = Category::all();
-        $technologies = Technology::all();
-        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
+        $currentUserId = Auth::id();
+        if ($currentUserId === 1 || $project->user_id === $currentUserId) {
+            $categories = Category::all();
+            $technologies = Technology::all();
+
+            return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
+        }
+        abort(403);
     }
 
     /**
@@ -113,6 +128,14 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $currentUserId = Auth::id();
+        if ($currentUserId !== 1 && $project->user_id != $currentUserId) {
+            abort(403);
+        }
+        if ($project->image) {
+            Storage::delete($project->image);
+        }
+
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "Il progetto $project->title è stato eliminato con successo");
     }
